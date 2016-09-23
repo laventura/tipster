@@ -22,6 +22,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var splitValueLabel: UILabel!
     @IBOutlet weak var pickerView: UIPickerView!
     
+    let formatter = NSNumberFormatter()
+    
     // Various Tip Rates
     let tipRate = [ 0.1, 0.15, 0.18,
                     0.2, 0.22, 0.25]
@@ -40,6 +42,11 @@ class ViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Curency formatting
+        formatter.numberStyle = .CurrencyStyle
+        formatter.locale = NSLocale.currentLocale()
+        
         
         // Notification - addObserver to listen to Notifications about Settings changes
         NSNotificationCenter.defaultCenter().addObserver(self,
@@ -166,9 +173,9 @@ class ViewController: UIViewController {
         
         let perPersonSplit = total / Double(numPeople)
         
-        tipLabel.text = String(format: "$%.02f", tip)
-        totalBillLabel.text = String(format: "$%.02f", total)
-        splitValueLabel.text = String(format: "$%.02f", perPersonSplit)
+        tipLabel.text = formatter.stringFromNumber(tip)         // String(format: "$%.02f", tip)
+        totalBillLabel.text = formatter.stringFromNumber(total) // String(format: "$%.02f", total)
+        splitValueLabel.text = formatter.stringFromNumber(perPersonSplit) // String(format: "$%.02f", perPersonSplit)
         
     }
 
